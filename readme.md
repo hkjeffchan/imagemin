@@ -2,75 +2,29 @@
 
 > Minify images seamlessly
 
-<br>
-
 ---
-
-<div align="center">
-	<p>
-		<p>
-			<sup>
-				<a href="https://github.com/sponsors/sindresorhus">Sindre Sorhus' open source work is supported by the community</a>
-			</sup>
-		</p>
-		<sup>Special thanks to:</sup>
-		<br>
-		<br>
-		<a href="https://standardresume.co/tech">
-			<img src="https://sindresorhus.com/assets/thanks/standard-resume-logo.svg" width="180">
-		</a>
-		<br>
-		<br>
-		<br>
-		<a href="https://doppler.com/?utm_campaign=github_repo&utm_medium=referral&utm_content=imagemin&utm_source=github">
-			<div>
-				<img src="https://dashboard.doppler.com/imgs/logo-long.svg" width="240" alt="Doppler">
-			</div>
-			<b>All your environment variables, in one place</b>
-			<div>
-				<span>Stop struggling with scattered API keys, hacking together home-brewed tools,</span>
-				<br>
-				<span>and avoiding access controls. Keep your team and servers in sync with Doppler.</span>
-			</div>
-		</a>
-		<br>
-		<a href="https://strapi.io/?ref=sindresorhus">
-			<div>
-				<img src="https://sindresorhus.com/assets/thanks/strapi-logo-white-bg.png" width="200" alt="Strapi">
-			</div>
-			<b>Strapi is the leading open-source headless CMS.</b>
-			<div>
-				<sup>It’s 100% JavaScript, fully customizable, and developer-first.</sup>
-			</div>
-		</a>
-	</p>
-</div>
-
----
-
-<br>
 
 ## Install
 
 ```
-$ npm install imagemin
+$ npm install @hkjeffchan/imagemin
 ```
 
 ## Usage
 
 ```js
-import imagemin from 'imagemin';
-import imageminJpegtran from 'imagemin-jpegtran';
-import imageminPngquant from 'imagemin-pngquant';
+import imagemin from "imagemin";
+import imageminJpegtran from "imagemin-jpegtran";
+import imageminPngquant from "imagemin-pngquant";
 
-const files = await imagemin(['images/*.{jpg,png}'], {
-	destination: 'build/images',
+const files = await imagemin(["images/*.{jpg,png}"], {
+	destination: "build/images",
 	plugins: [
 		imageminJpegtran(),
 		imageminPngquant({
-			quality: [0.6, 0.8]
-		})
-	]
+			quality: [0.6, 0.8],
+		}),
+	],
 });
 
 console.log(files);
