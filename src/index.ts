@@ -19,10 +19,9 @@ export interface option {
 	glob?: boolean;
 }
 
-const handleFile = async (
-	sourcePath: string,
-	{ destination, plugins = [] }: option
-) => {
+const handleFile = async (sourcePath: string, opt: option) => {
+	const { destination, plugins = [] } = opt;
+
 	if (plugins && !Array.isArray(plugins)) {
 		throw new TypeError("The `plugins` option should be an `Array`");
 	}
@@ -89,14 +88,17 @@ export default async function imagemin(
 	);
 }
 
-imagemin.buffer = async (input: Buffer, { plugins = [] } = {}) => {
+imagemin.buffer = async (
+	input: Buffer,
+	opt: { plugins: any[] } = { plugins: [] }
+) => {
 	if (!Buffer.isBuffer(input)) {
 		throw new TypeError(`Expected a \`Buffer\`, got \`${typeof input}\``);
 	}
 
-	if (plugins.length === 0) {
+	if (opt.plugins.length === 0) {
 		return input;
 	}
 
-	return pPipe(...plugins)(input) as Promise<Buffer>;
+	return pPipe(...opt.plugins)(input) as Promise<Buffer>;
 };
