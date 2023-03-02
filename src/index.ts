@@ -1,5 +1,5 @@
 import FileType from 'file-type';
-import { globby } from 'globby';
+import globby from 'globby';
 import fs from 'graceful-fs';
 import junk from 'junk';
 import { Buffer } from 'node:buffer';
@@ -71,7 +71,7 @@ export default async function imagemin(
 
 	const unixFilePaths = input.map((path) => convertToUnixPath(path));
 	const filePaths = glob
-		? await globby(unixFilePaths, { onlyFiles: true })
+		? await globby.globby(unixFilePaths, { onlyFiles: true })
 		: input;
 
 	return Promise.all(
