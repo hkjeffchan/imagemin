@@ -1,14 +1,9 @@
-import FileType from 'file-type';
-import globby from 'globby';
-import fs from 'graceful-fs';
-import junk from 'junk';
-import { Buffer } from 'node:buffer';
-import { promises as fsPromises } from 'node:fs';
-import path from 'node:path';
-import { promisify } from 'node:util';
-import pPipe from 'p-pipe';
-import replaceExt from 'replace-ext';
-import convertToUnixPath from 'slash';
+import fs from "graceful-fs";
+import { Buffer } from "node:buffer";
+import { promises as fsPromises } from "node:fs";
+import path from "node:path";
+import { promisify } from "node:util";
+import replaceExt from "replace-ext";
 
 const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
@@ -26,12 +21,15 @@ const handleFile = async (sourcePath: string, opt: option) => {
 		throw new TypeError("The `plugins` option should be an `Array`");
 	}
 
+	const pPipe = await import("p-pipe");
+	const fileType = await import("file-type");
+
 	let data = await readFile(sourcePath);
 	data = await (plugins.length > 0
-		? (pPipe(...plugins)(data) as Promise<Buffer>)
+		? (pPipe.default(...plugins)(data) as Promise<Buffer>)
 		: data);
 
-	const { ext } = (await FileType.fromBuffer(data)) || {
+	const { ext } = (await fileType.fileTypeFromBuffer(data)) || {
 		ext: path.extname(sourcePath),
 	};
 	let destinationPath = destination
@@ -65,11 +63,16 @@ export default async function imagemin(
 	input: string[],
 	{ glob = true, ...options }: option = {}
 ) {
+	const globby = await import("globby");
+	const slash = await import("slash");
+	const junk = await import("junk");
+
 	if (!Array.isArray(input)) {
 		throw new TypeError(`Expected an \`Array\`, got \`${typeof input}\``);
 	}
 
-	const unixFilePaths = input.map((path) => convertToUnixPath(path));
+	const unixFilePaths = input.map((path) => slash.default(path));
+
 	const filePaths = glob
 		? await globby.globby(unixFilePaths, { onlyFiles: true })
 		: input;
@@ -100,5 +103,6 @@ imagemin.buffer = async (
 		return input;
 	}
 
-	return pPipe(...opt.plugins)(input) as Promise<Buffer>;
+	const pPipe = await import("p-pipe");
+	return pPipe.default(...opt.plugins)(input) as Promise<Buffer>;
 };

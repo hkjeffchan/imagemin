@@ -1,6 +1,8 @@
 # imagemin
 
 > Minify images seamlessly
+> Fork from https://github.com/imagemin/imagemin
+> Repackage with latest dependencies and cjs support
 
 ---
 
