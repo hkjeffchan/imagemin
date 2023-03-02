@@ -28,10 +28,9 @@ const handleFile = async (
 	}
 
 	let data = await readFile(sourcePath);
-	data =
-		plugins.length > 0
-			? ((await pPipe(...plugins)(data)) as any as Buffer)
-			: data;
+	data = await (plugins.length > 0
+		? (pPipe(...plugins)(data) as Promise<Buffer>)
+		: data);
 
 	const { ext } = (await FileType.fromBuffer(data)) || {
 		ext: path.extname(sourcePath),
@@ -99,5 +98,5 @@ imagemin.buffer = async (input: Buffer, { plugins = [] } = {}) => {
 		return input;
 	}
 
-	return pPipe(...plugins)(input);
+	return pPipe(...plugins)(input) as Promise<Buffer>;
 };
