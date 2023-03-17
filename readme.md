@@ -90,6 +90,7 @@ Type: `Array`
 
 ## Related
 
+- [imagemin](https://github.com/imagemin/imagemin) - Imagemin orginal
 - [imagemin-cli](https://github.com/imagemin/imagemin-cli) - CLI for this module
 - [imagemin-app](https://github.com/imagemin/imagemin-app) - GUI app for this module
 - [gulp-imagemin](https://github.com/sindresorhus/gulp-imagemin) - Gulp plugin
